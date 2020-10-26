@@ -1,5 +1,9 @@
 $(function() {
 
+    $.ajaxPrefilter(function(option) {
+        option.url = 'http://ajax.frontend.itheima.net' + option.url
+    })
+
     $('#go-reg').on('click', function(e) {
         e.preventDefault()
         $('#form-login').hide()
@@ -29,15 +33,31 @@ $(function() {
         var data = $(this).serialize()
         $.ajax({
             type: 'POST',
-            url: 'http://ajax.frontend.itheima.net/api/reguser',
+            url: '/api/reguser',
             data: data,
             success: function(res) {
                 if (res.status !== 0) {
-                    alert(res.message)
+                    return layer.msg(res.message)
                 }
-                alert(res.message)
-
+                layer.msg('注册成功,请登录')
             }
+        })
+    })
+
+    $('#form-login').on('submit', function(e) {
+        e.preventDefault()
+        $.ajax({
+            type: 'POST',
+            data: $(this).serialize(),
+            url: '/api/login',
+            success: function(res) {
+                if (res.status !== 0) {
+                    return layer.msg(res.message)
+                }
+                layer.msg(res.message)
+                location.href = '/index.html'
+            }
+
         })
     })
 
