@@ -41,4 +41,5 @@ iframe {
 
 .layui-side-scroll .userinfo {
     border-bottom: 1px solid #282b33;
+    user-select: none;
 }
